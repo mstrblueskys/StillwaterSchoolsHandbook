@@ -1,4 +1,6 @@
+Below is the list of sites linked at the Lilly Lake Handbook site: https://lilylake.stillwaterschools.org/our-school/handbooks
 
+This was pulled on 8/8/2025. My guess would be this handbook will be updated overtime so please take note of the date. Thank you.
 
 # Bullying Prohibition | article
 
@@ -880,5 +882,6 @@ End of School
 Field day
 School assembly
 Class field trip
+
 
 
