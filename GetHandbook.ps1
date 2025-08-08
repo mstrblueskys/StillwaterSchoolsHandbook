@@ -13,6 +13,18 @@
 $baseUrl = "https://lilylake.stillwaterschools.org/our-school/handbooks"
 $outputPath = "C:\appDev\LilyLakeHandbookContent.md"
 
+$today = Get-Date -Format "MM-dd-yyyy" # Ugh, fine, this format works
+
+# Initialize output file - add the disclaimer at the beginning.
+$IntroURL = "Below is the list of sites linked at the Lilly Lake Handbook site: " + $baseUrl
+$InrtoDate = "This was pulled on " + "" + $today + ". My guess would be this handbook will be updated overtime so please take note of the date. Thank you."
+
+# I wish I was smart enough to not do it like this... ick.
+$allIntro = $IntroURL + "
+
+" + $InrtoDate
+
+
 # Initialize output file
 "" | Out-File -FilePath $outputPath -Encoding UTF8
 
@@ -57,8 +69,8 @@ foreach ($entry in $uniqueUrls) {
         $fsBodyMatch = [regex]::Match($html, '<div class="fsBody">(.*?)</div>', 'Singleline, IgnoreCase')
         $fsBodyHtml = if ($fsBodyMatch.Success) { $fsBodyMatch.Groups[1].Value } else { "No content found." }
 
-        # Basic HTML cleanup (optional: improve with full HTML-to-Markdown conversion)
-        $cleanContent = $fsBodyHtml -replace "<[^>]+>", "" -replace "&nbsp;", " " -replace "&amp;", "&" -replace "\s{2,}", "`n"
+        # Basic HTML cleanup (optional: improve with full HTML-to-Markdown conversion) - I am keeping some because it's nice.
+        $cleanContent = $fsBodyHtml <#-replace "<[^>]+>", ""#> -replace "&nbsp;", " " -replace "&amp;", "&" -replace "\s{2,}", "`n"
 
         # Write to Markdown file
         Add-Content -Path $outputPath -Value "`n# $title`n"
@@ -69,4 +81,5 @@ foreach ($entry in $uniqueUrls) {
 }
 
 Write-Host "All content saved to $outputPath"
+
 
