@@ -9,9 +9,8 @@ $urls = Import-Csv -Path $csvPath
 "" | Out-File -FilePath $outputPath -Encoding UTF8
 
 # Loop through each URL
-# Loop through each URL
 foreach ($entry in $urls) {
-    $url = $entry.URL  # Adjust if your CSV uses a different column name
+    $url = $entry.URL  
 
     try {
         Write-Host "Fetching $url..."
