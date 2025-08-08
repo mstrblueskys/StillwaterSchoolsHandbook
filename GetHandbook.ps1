@@ -1,4 +1,15 @@
+################################################################
+#
+#  Parse and extract the handbook for Stillwater MN Schools
+#          Created 8/8/2025, Updated []
+#               Matt Peterson
+#
+#  I couldn't handle the site's UX so this builds a text only version
+#
+################################################################
+
 # Define target URL and output path
+# Replace the URL in the quotes if you want to try with a different school
 $baseUrl = "https://lilylake.stillwaterschools.org/our-school/handbooks"
 $outputPath = "C:\appDev\LilyLakeHandbookContent.md"
 
@@ -58,3 +69,4 @@ foreach ($entry in $uniqueUrls) {
 }
 
 Write-Host "All content saved to $outputPath"
+
