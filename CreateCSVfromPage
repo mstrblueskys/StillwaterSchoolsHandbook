@@ -1,0 +1,34 @@
+# Define target URL and output path
+$baseUrl = "https://lilylake.stillwaterschools.org/our-school/handbooks"
+$outputPath = "C:\appDev\handbookURLs.csv"
+
+# Download HTML content
+try {
+    $html = Invoke-WebRequest -Uri $baseUrl -UseBasicParsing
+} catch {
+    Write-Error "Failed to fetch the page: $_"
+    exit
+}
+
+# Extract all anchor tags
+$links = $html.Links | Where-Object { $_.href -like "*handbooks/article*" }
+
+# Deduplicate and resolve full URLs
+$uniqueUrls = $links |
+    ForEach-Object {
+        if ($_.href -notmatch "^https?://") {
+            # Convert relative URL to absolute
+            [System.Uri]::new($baseUrl, $_.href).AbsoluteUri
+        } else {
+            $_.href
+        }
+    } | Sort-Object -Unique
+
+# Save to CSV
+try {
+    $uniqueUrls | ForEach-Object { [PSCustomObject]@{ URL = $_ } } |
+        Export-Csv -Path $outputPath -NoTypeInformation -Encoding UTF8
+    Write-Host "✅ Saved $($uniqueUrls.Count) unique URLs to '$outputPath'"
+} catch {
+    Write-Error "Failed to write CSV: $_"
+}
